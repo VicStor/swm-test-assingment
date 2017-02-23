@@ -12,6 +12,7 @@
  */
 
 import React from 'react';
+import AppHeader from 'components/AppHeader';
 
 export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -21,7 +22,8 @@ export default class App extends React.PureComponent { // eslint-disable-line re
 
   render() {
     return (
-      <div>
+      <div id="main-wrapper">
+        <AppHeader />
         {React.Children.toArray(this.props.children)}
       </div>
     );
