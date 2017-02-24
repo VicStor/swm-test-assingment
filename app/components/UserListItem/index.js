@@ -1,18 +1,22 @@
-/**
-*
-* UserListItem
-*
-*/
-
 import React, { PropTypes } from 'react';
-// import styled from 'styled-components';
-// import { Link } from 'react-router';
-import UserLi from '../UserLi';
+import styled from 'styled-components';
+import { Link } from 'react-router';
+
 import Img from '../ImgFill';
+
+const UserLi = styled.li`
+  background-color: #FFF;
+  height: 64px;
+  position: relative;
+  display: flex;
+  &:hover {
+    background-color: rgba(0, 0, 0, .05);
+  }
+`;
 
 const UserListItem = ({ name, avatar, id, lastMsgTime, selectUser }) => (
   <UserLi>
-    <button
+    <Link
       className="friend-link"
       to={`/${id}`}
       onClick={() => { selectUser(id); }}
@@ -24,7 +28,7 @@ const UserListItem = ({ name, avatar, id, lastMsgTime, selectUser }) => (
         <span className="user-data">{name}</span>
         <span className="timestamp">{lastMsgTime}</span>
       </div>
-    </button>
+    </Link>
   </UserLi>
 );
 

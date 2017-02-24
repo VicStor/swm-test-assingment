@@ -35,10 +35,10 @@ const initialState = makeUsers(10).map((user) =>
 function chatReducer(chat = fromJS(initialState), { type, msg, imgUrl, userId }) {
   switch (type) {
     case MSG_IN: {
+      console.log('Catch this message');
       return chat;
     }
     case MSG_OUT: {
-      // console.log('Msg ', type, msg, imgUrl, userId);
       const newChat = chat.toJS()
         .map((user) => {
           if (user.id === userId) {

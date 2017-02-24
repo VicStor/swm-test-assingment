@@ -1,37 +1,41 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
-// import TextInput from 'components/TextInput';
+
 import { flexComponent } from 'components/Flex';
 import ChatInfo from 'components/ChatInfo';
 import ChatBoard from 'components/ChatBoard';
 import SectionHeader from 'components/SectionHeader';
 
 const FlexDiv = flexComponent('div');
-
-const ChatHeader = styled(SectionHeader)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Wrapper = styled(FlexDiv)`
+const ChatHeader = flexComponent(SectionHeader);
+const FlexWrapper = styled(FlexDiv)`
   border-left: 1px solid rgba(0, 0, 0, .20);
   min-width: 0;
 `;
-function Chat({ user, onChatInputChange, uploadedFiles, onImageChange, imgPreviewUrl }) {
+
+function Chat({
+  user,
+  onChatInputChange,
+  uploadedFiles,
+  onImageChange,
+  imgPreviewUrl,
+  openGallery,
+}) {
   return (
-    <Wrapper
+    <FlexWrapper
+      cn
       flex="3"
-      flow="cn"
     >
       <ChatHeader
+        jc="center"
+        ai="center"
         border="bottom: 1px solid rgba(0, 0, 0, .10)"
       >
         <p>{user.name}</p>
       </ChatHeader>
       <FlexDiv
+        rn
         flex="auto"
-        flow="rn"
       >
         <ChatBoard
           user={user}
@@ -42,15 +46,17 @@ function Chat({ user, onChatInputChange, uploadedFiles, onImageChange, imgPrevie
         <ChatInfo
           user={user}
           uploadedFiles={uploadedFiles}
+          openGallery={openGallery}
         />
       </FlexDiv>
-    </Wrapper>
+    </FlexWrapper>
   );
 }
 
 Chat.propTypes = {
   user: PropTypes.object.isRequired,
   onChatInputChange: PropTypes.func.isRequired,
+  openGallery: PropTypes.func.isRequired,
   onImageChange: PropTypes.func.isRequired,
   uploadedFiles: PropTypes.array,
   imgPreviewUrl: PropTypes.string,

@@ -6,11 +6,19 @@ import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
+import Lightbox from 'react-images';
+
 // import { flexItem } from 'components/Flex';
 import UsersList from 'containers/UsersList';
 import Chat from 'components/Chat';
+// import Img from 'components/ImgFill';
 
 import { sendMsg } from './actions';
+
+const replyMsg = {
+  owner: 'in',
+  msg: 'И я тебе рад!!!',
+};
 
 // const MainContainer = flexItem('div');
 // styled(flexComponent('div'))`
@@ -20,6 +28,7 @@ import { sendMsg } from './actions';
 // font-size: 14px;
 // `;
 
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -27,20 +36,25 @@ class HomePage extends Component {
       activeUserId: props.users[0].id,
       uploadedFiles: [],
       imgPreviewUrl: null,
+      isOpenGallery: false,
     };
   }
   onChatInputChange = (e) => {
     if (e.key === 'Enter') {
-      const msg = {
+      this.props.dispatch(sendMsg({
         owner: 'out',
         userId: this.state.activeUserId,
         msg: e.target.value,
         imgUrl: this.state.imgPreviewUrl,
-      };
-      this.props.dispatch(sendMsg(msg));
+      }));
+
+      setTimeout(() => {
+        console.log('Dispatch responce');
+        this.props.dispatch(sendMsg(replyMsg));
+      }, 550);
 
       e.target.value = '';
-      this.state.imgPreviewUrl && this.setState({ imgPreviewUrl: null });
+      this.setState({ imgPreviewUrl: null });
     }
   }
   onImageChange = (e) => {
@@ -56,13 +70,59 @@ class HomePage extends Component {
       });
     };
   }
+  openGallery = (imgIndex) => () => {
+    this.setState({
+      isOpenGallery: true,
+      currentImgIndex: imgIndex,
+    });
+  }
+  closeGallery = () => {
+    this.setState({ isOpenGallery: false });
+  }
+  prevImg = () => {
+    let { currentImgIndex } = this.state;
 
+    currentImgIndex = currentImgIndex - 1 < 0
+    ? this.props.users
+      .find((user) => (user.id === this.state.activeUserId))
+      .chat.fotos.length - 1
+    : currentImgIndex - 1;
+
+    this.setState({ currentImgIndex });
+  }
+
+  nextImg = () => {
+    let { currentImgIndex } = this.state;
+    currentImgIndex = this.props.users
+      .find((user) => (user.id === this.state.activeUserId))
+      .chat.fotos.length - 1 === currentImgIndex
+    ? 0
+    : currentImgIndex + 1;
+
+    this.setState({ currentImgIndex });
+  }
+  thumbClick = (imgIndex) => {
+    this.setState({
+      currentImgIndex: imgIndex,
+    });
+  }
   selectUser = (userId) => {
-    // const activeUser = this.props.users.find((user) => (user.id === userId));
     this.setState({ activeUserId: userId });
   }
+  renderImages() {
+    return this.props.users
+      .find((user) => (user.id === this.state.activeUserId))
+      .chat.fotos.map((foto) => ({ src: foto.fotoUrl }));
+  }
+
   render() {
-    const { activeUserId, uploadedFiles, imgPreviewUrl } = this.state;
+    const {
+      activeUserId,
+      uploadedFiles,
+      imgPreviewUrl,
+      isOpenGallery,
+      currentImgIndex,
+    } = this.state;
     return (
       <div className="main-container">
         <UsersList
@@ -70,11 +130,22 @@ class HomePage extends Component {
           selectUser={this.selectUser}
         />
         <Chat
-          user={this.props.users.find((user) => (user.id === activeUserId))}
+          user={this.props.users.find(({ id }) => (id === activeUserId))}
           uploadedFiles={uploadedFiles}
           onChatInputChange={this.onChatInputChange}
           onImageChange={this.onImageChange}
           imgPreviewUrl={imgPreviewUrl}
+          openGallery={this.openGallery}
+        />
+        <Lightbox
+          isOpen={isOpenGallery}
+          images={this.renderImages()}
+          onClose={this.closeGallery}
+          onClickPrev={this.prevImg}
+          onClickNext={this.nextImg}
+          showThumbnails
+          onClickThumbnail={this.thumbClick}
+          currentImage={currentImgIndex}
         />
       </div>
     );

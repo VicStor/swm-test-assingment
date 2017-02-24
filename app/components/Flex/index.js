@@ -1,6 +1,19 @@
 import styled from 'styled-components';
 import { compose } from 'redux';
 
+const FLOW_PROPS = ['rn', 'rrn', 'rw', 'rwr', 'rrw', 'rrwr', 'cn', 'crn', 'cw', 'cwr', 'crw', 'crwr'];
+
+const flowProp = (props) => {
+  const flow = FLOW_PROPS.reduce((f, fp) => {
+    if (fp in props) {
+      return fp;
+    }
+    return f;
+  }, null);
+  return flow ? `flex-flow: ${makeFlow(flow)};` : '';
+};
+
+
 const makeFlow = (flow) => {
   switch (flow) {
     case 'rn': return 'row nowrap';
@@ -34,6 +47,7 @@ const makeJustify = (justify) => {
 export const flexContainer = (component) => (
   styled(component)`
     display: flex;
+    ${flowProp}
     ${({ flow }) => flow ? `flex-flow: ${makeFlow(flow)};` : ''}
     ${({ jc }) => jc ? `justify-content: ${makeJustify(jc)};` : ''}
     ${({ ai }) => ai ? `align-items: ${makeJustify(ai)};` : ''}

@@ -10,7 +10,7 @@ function ChatMsg({ owner, msgText, msgTime }) {
 ChatMsg.propTypes = {
   owner: PropTypes.string,
   msgText: PropTypes.string,
-  msgTime: PropTypes.string,
+  msgTime: PropTypes.any,
 };
 
 export default ChatMsg;

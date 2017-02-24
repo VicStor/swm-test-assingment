@@ -1,12 +1,16 @@
 import faker from 'faker';
-import { times } from 'lodash';
+import { times, random } from 'lodash';
 
 export const dataStr = () => faker.date.past().toString().split(' ', 3).join(' ');
 
-const makeFoto = () => ({
-  fotoUrl: faker.image.animals(),
-  uploadTime: dataStr(),
-});
+const makeFoto = () => {
+  const imgId = random(100, 500);
+  return ({
+    fotoUrl: `https://unsplash.it/900/600?image=${imgId}`,
+    uploadTime: dataStr(),
+    imgId,
+  });
+};
 
 const makeUser = () => {
   const user = faker.helpers.contextualCard();

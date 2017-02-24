@@ -13,8 +13,9 @@ function MsgPannel({ user }) {
   return (
     <div className="chat-board">
       {
-        user.chat.msgs.map((msgGroup) => (
+        user.chat.msgs.map((msgGroup, i) => (
           <MsgGroup
+            key={i}
             avatar={avatar}
             name={name}
             {...msgGroup}

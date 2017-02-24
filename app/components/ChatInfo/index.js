@@ -1,17 +1,10 @@
-/**
-*
-* Chat
-*
-*/
-
 import React, { PropTypes } from 'react';
 // import styled from 'styled-components';
 import ImgFill from 'components/ImgFill';
 import ChatImgs from 'components/ChatImgs';
 import SectionHeader from 'components/SectionHeader';
 
-
-function ChatInfo({ user }) {
+function ChatInfo({ user, openGallery }) {
   return (
     <div className="info-pannel-container">
       <div className="info-pannel-header">
@@ -30,7 +23,10 @@ function ChatInfo({ user }) {
           <SectionHeader>Информация о друге</SectionHeader>
           <div className=""></div>
         </div>
-        <ChatImgs fotos={user.chat.fotos} />
+        <ChatImgs
+          fotos={user.chat.fotos}
+          openGallery={openGallery}
+        />
       </div>
     </div>
   );
@@ -38,6 +34,7 @@ function ChatInfo({ user }) {
 
 ChatInfo.propTypes = {
   user: PropTypes.object,
+  openGallery: PropTypes.func,
 };
 
 export default ChatInfo;
