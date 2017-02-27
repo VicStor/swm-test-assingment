@@ -19,7 +19,7 @@ function MsgGroup({ avatar, name, owner, msgs }) {
           }
 
           <div className="msg-container">
-            {msgs.map((msg) => <ChatMsg key={msg.msgTime} owner={owner} {...msg} />)}
+            {msgs.map((msg, i) => <ChatMsg key={i} owner={owner} msgText={msg} />)}
           </div>
         </div>
       </div>

@@ -1,20 +1,11 @@
 import {
-  MSG_IN,
-  MSG_OUT,
+  NEW_MSG,
 } from './constants';
-
-export function msgOut({ userId, msg, imgUrl }) {
-  return {
-    type: MSG_OUT,
-    msg,
-    imgUrl,
-    userId,
-  };
-}
 
 export function sendMsg({ owner, userId, msg, imgUrl }) {
   return {
-    type: owner === 'in' ? MSG_IN : MSG_OUT,
+    type: NEW_MSG,
+    owner,
     msg,
     imgUrl,
     userId,

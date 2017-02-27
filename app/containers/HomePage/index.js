@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 // import styled from 'styled-components';
 
 import { connect } from 'react-redux';
-// import toJS from 'immutable-to-js';
 // import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
@@ -11,23 +10,16 @@ import Lightbox from 'react-images';
 // import { flexItem } from 'components/Flex';
 import UsersList from 'containers/UsersList';
 import Chat from 'components/Chat';
-// import Img from 'components/ImgFill';
 
 import { sendMsg } from './actions';
 
-const replyMsg = {
+
+const replyMsg = (userId) => ({
   owner: 'in',
   msg: 'И я тебе рад!!!',
-};
-
-// const MainContainer = flexItem('div');
-// styled(flexComponent('div'))`
-// flex: auto;
-// display: flex;
-// background-color: #fff;
-// font-size: 14px;
-// `;
-
+  imgUrl: null,
+  userId,
+});
 
 class HomePage extends Component {
   constructor(props) {
@@ -50,7 +42,7 @@ class HomePage extends Component {
 
       setTimeout(() => {
         console.log('Dispatch responce');
-        this.props.dispatch(sendMsg(replyMsg));
+        this.props.dispatch(sendMsg(replyMsg(this.state.activeUserId)));
       }, 550);
 
       e.target.value = '';
@@ -112,7 +104,9 @@ class HomePage extends Component {
   renderImages() {
     return this.props.users
       .find((user) => (user.id === this.state.activeUserId))
-      .chat.fotos.map((foto) => ({ src: foto.fotoUrl }));
+      .chat.msg
+      .filter((msg) => (msg.img !== null))
+      .map((msg) => ({ src: msg.img.imgUrl }));
   }
 
   render() {

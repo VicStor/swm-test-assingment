@@ -21,21 +21,26 @@ const ImgWrapper = styled.div`
   height: 100%;
   padding: 2px;
 `;
+function makeImgThumb({ imgId, imgUrl }) {
+  return imgId ? `https://unsplash.it/250/250?image=${imgId}` : imgUrl;
+}
 
-function ChatImgs({ fotos, openGallery }) {
+function ChatImgs({ msgs, openGallery }) {
   return (
     <div className="chat-img-container">
       <SectionHeader>Фотографии в чате</SectionHeader>
       <div className="imgs-wrapper">
         {
-          fotos.map((foto, i) => (
+          msgs
+          .filter((msg) => (msg.img !== null))
+          .map((msg, i) => (
             <ImgBtn
               onClick={openGallery(i)}
               key={i}
             >
               <ImgWrapper>
                 <Img
-                  src={foto.fotoUrl}
+                  src={makeImgThumb(msg.img)}
                   fit="cover"
                 />
               </ImgWrapper>
@@ -48,7 +53,7 @@ function ChatImgs({ fotos, openGallery }) {
 }
 
 ChatImgs.propTypes = {
-  fotos: PropTypes.array,
+  msgs: PropTypes.array,
   openGallery: PropTypes.func.isRequired,
 };
 

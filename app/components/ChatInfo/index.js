@@ -24,7 +24,7 @@ function ChatInfo({ user, openGallery }) {
           <div className=""></div>
         </div>
         <ChatImgs
-          fotos={user.chat.fotos}
+          msgs={user.chat.msg}
           openGallery={openGallery}
         />
       </div>

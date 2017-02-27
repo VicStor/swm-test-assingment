@@ -43,6 +43,29 @@ const makeJustify = (justify) => {
     default: return '';
   }
 };
+const stylesTable = {
+  'jc:c': 'justify-content: center',
+  'jc:s': 'justify-content: start',
+  'jc:e': 'justify-content: end',
+  'jc:b': 'justify-content: space-between',
+  'ai:c': 'align-items: ',
+  'ac:c': 'align-content: ',
+  'as:c': 'align-self: ',
+  fa: 'flex: auto',
+  fn: 'flex: none',
+  rn: 'row nowrap',
+  rrn: 'row-reverse nowrap',
+  rw: 'row wrap',
+  rwr: 'row wrap-reverse',
+  rrw: 'row-reverse wrap',
+  rrwr: 'row-reverse wrap-reverse',
+  cn: 'column nowrap',
+  crn: 'column-reverse nowrap',
+  cw: 'column wrap',
+  cwr: 'column wrap-reverse',
+  crw: 'column-reverse wrap',
+  crwr: 'column-reverse wrap-reverse',
+};
 
 export const flexContainer = (component) => (
   styled(component)`
@@ -66,6 +89,9 @@ export const flexItem = (component) => (
   `
 );
 
-export const flexComponent = (component) => (
+// const ChatHeader = flexComponent(SectionHeader, 'jc:c ai:с f:a')
+// const fDiv = flexComponent('div', 'rn jc:c ai:c');
+
+export const flexComponent = (component, style) => (
   compose(flexItem, flexContainer)(component)
 );
